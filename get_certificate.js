@@ -36,7 +36,6 @@ export default function (data) {
     var apimKey = `${__ENV.APIM_KEY}`
 
     var auth = generateAuth();
-    console.log('Fiscal code: ' + fiscalCode)
 
     var headersParams = {
     headers: {
@@ -56,7 +55,7 @@ export default function (data) {
     var r = http.post(url, payload, headersParams, {
         tags: tag,
     });
-    console.log("Get certificate for fiscal code" + fiscalCode + " Status " + r.status);
+    console.log("Get certificate Status " + r.status);
     check(r, { 'status is 200': (r) => r.status === 200 }, tag);
  
 }

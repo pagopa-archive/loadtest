@@ -1,5 +1,6 @@
 {
     "fiscalCodes": [
         "AAAAAA00A00A000A"
-    ]
+    ],
+    "getMessageSamplingRate": 20
 }

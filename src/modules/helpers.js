@@ -1,4 +1,4 @@
-import configData from '../config.json';
+const configData=JSON.parse(open("../config.json"));
 
 export function generateFakeFiscalCode() {
   var items = configData.fiscalCodes;

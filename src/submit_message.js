@@ -12,7 +12,8 @@ export let options = {
             preAllocatedVUs: 50,
             maxVUs: 100,
             stages: [
-              { duration: '10s', target: 50 },
+              { duration: '10s', target: 100 },
+              { duration: '10s', target: 200 },
               { duration: '10s', target: 100 },
             ]
         }
@@ -24,12 +25,13 @@ export let options = {
     },
 };
 
+const samplingRate=JSON.parse(open("./config.json")).getMessageSamplingRate;
 export function setup() {
-    return { 
+    return {
         subject: generateFakeSubject(),
-        markdown:  generateFakeMarkdown()
+        markdown:  generateFakeMarkdown(),
     };
-  }
+}
 
 export default function (data) {
     // Values from env var.
@@ -71,45 +73,50 @@ export default function (data) {
     var jsonBody = JSON.parse(r.body);
     var messageId = jsonBody.id;
 
-    // Polling message status
-    var maxRetries = 20;
-    var retryCount = 0;
-    var messageSubmitted = false;
-    do {
-        sleep(1)
-        console.log('Polling Message Status: ' + r.status + ' retry: ' + (retryCount + 1));
-
-        // Get Message Status
-        tag = {
-            pagoPaMethod: "GetMessageStatus",
-        };
-        url = `${urlBasePath}/api/v1/messages/${fiscalCode}/${messageId}`;
-        r = http.get(url, headersParams, {
-            tags: tag,
-        });
-        check(r, { 'Get Message Status is 200': (r) => (r.status === 200) },
-            tag
-        );
-
-        // If status is "PROCESSED" then the message was correctly submitted
-        var jsonBody = JSON.parse(r.body);
-        if (r.body && jsonBody.status === 'PROCESSED') {
-            messageSubmitted = true;
-            break;
+    // Sample Message Status
+    var r = Math.floor(Math.random() * 100) + 1;
+    if (r <= samplingRate) {
+        // Polling message status
+        var maxRetries = 20;
+        var retryCount = 0;
+        var messageSubmitted = false;
+        do {
+            sleep(1)
+            console.log('Polling Message Status: ' + r.status + ' retry: ' + (retryCount + 1));
+    
+            // Get Message Status
+            tag = {
+                pagoPaMethod: "GetMessageStatus",
+            };
+            url = `${urlBasePath}/api/v1/messages/${fiscalCode}/${messageId}`;
+            r = http.get(url, headersParams, {
+                tags: tag,
+            });
+            check(r, { 'Get Message Status is 200': (r) => (r.status === 200) },
+                tag
+            );
+    
+            // If status is "PROCESSED" then the message was correctly submitted
+            var jsonBody = JSON.parse(r.body);
+            if (r.body && jsonBody.status === 'PROCESSED') {
+                messageSubmitted = true;
+                break;
+            }
+            console.log('Get Message Status: ' + r.status);
+    
+            retryCount++;
         }
-        console.log('Get Message Status: ' + r.status);
+        while ((retryCount < maxRetries) && !messageSubmitted);
+    
+        if (messageSubmitted) {
+            console.log('Message ' + messageId + ' processed.')
+        }
+        else {
+            console.log('Message ' + messageId + ' NOT processed. Exit test.')
+            return;
+        }
+    }
 
-        retryCount++;
-    }
-    while ((retryCount < maxRetries) && !messageSubmitted);
-
-    if (messageSubmitted) {
-        console.log('Message ' + messageId + ' processed.')
-    }
-    else {
-        console.log('Message ' + messageId + ' NOT processed. Exit test.')
-        return;
-    }
 
     sleep(0.5);
 

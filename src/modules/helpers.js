@@ -1,10 +1,17 @@
 const configData=JSON.parse(open("../config.json"));
 
 export function generateFakeFiscalCode() {
-  var items = configData.fiscalCodes;
-  var item = items[Math.floor(Math.random() * items.length)];
+  var fiscalCodes = configData.fiscalCodes;
+  var fiscalCode = fiscalCodes[Math.floor(Math.random() * items.length)];
 
-  return item;
+  return fiscalCode;
+}
+
+export function generateFakeFiscalCode() {
+  var authCodes = configData.authCodes;
+  var authCode = authCodes[Math.floor(Math.random() * items.length)];
+
+  return authCode;
 }
 
 export function generateFakeSubject() {

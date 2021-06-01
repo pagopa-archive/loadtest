@@ -12,5 +12,5 @@ The **Message Status** is sampled, with a percentage defined in the **config.jso
 You need to set an environment variable `APIM_KEY` with the azure API Management Subscription key.
 
 ```
-$ docker run -i --rm -v $(pwd)/src:/src -e APIM_KEY=${APIM_KEY} loadimpact/k6 run /src/submit_message.js
+k6 run -e APIM_KEY=${APIM_KEY} -e BASE_URL=${BASE_URL} src/submit_message.js
 ```

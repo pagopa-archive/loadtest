@@ -16,9 +16,9 @@ steps:
     displayName: Pull k6 image
   - script: |
       docker run -i \
-        -v `pwd`:/src \
+        -v `pwd`/src:/src \
         -e APIM_KEY=$(APIM_KEY) \
         -e BASE_URL=$(BASE_URL) \
         loadimpact/k6 \
-        /src/submit_message.js
+        run /src/submit_message.js
     displayName: Run k6

@@ -1,3 +1,12 @@
+parameters:
+  - name: 'BASE_URL'
+    displayName: 'target base url'
+    type: string
+    default: 'https://api.io.italia.it'
+  - name: 'APIM_KEY'
+    displayName: 'Api key'
+    type: string
+
 pool:
   vmImage: 'ubuntu-latest'
 

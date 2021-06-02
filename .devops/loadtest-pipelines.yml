@@ -3,14 +3,22 @@ parameters:
     displayName: 'target base url'
     type: string
     default: 'https://api.io.italia.it'
-  - name: 'APIM_KEY'
-    displayName: 'Api key'
-    type: string
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-  - task: k6-load-test@0
-    inputs:
-      filename: 'src/submit_message.js'
+  # - task: k6-load-test@0
+  #   inputs:
+  #     filename: 'src/submit_message.js'
+  - script: |
+      docker pull loadimpact/k6
+    displayName: Pull k6 image
+  - script: |
+      docker run -i \
+        -v `pwd`:/src \
+        -e APIM_KEY=${APIM_KEY} \
+        -e BASE_URL=${BASE_URL} \
+        loadimpact/k6 \
+        /src/submit_message.js
+    displayName: Run k6

@@ -77,6 +77,7 @@ export default function (data) {
     var r = Math.floor(Math.random() * 100) + 1;
     if (r <= samplingRate) {
         // Polling message status
+        sleep(5);
         var maxRetries = 20;
         var retryCount = 0;
         var messageSubmitted = false;

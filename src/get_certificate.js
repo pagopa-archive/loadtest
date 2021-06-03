@@ -49,7 +49,6 @@ export default function (data) {
         pagoPaMethod: "SendMessage",
     };
     var url = `${urlBasePath}/api/v1/getCertificate`;
-
     var r = http.post(url, payload, headersParams, {
         tags: tag,
     });

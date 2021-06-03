@@ -1,5 +1,9 @@
 {
     "fiscalCodes": [
         "AAAAAA00A00A000A"
-    ]
+    ],
+    "authCodes": [
+        ""
+    ],
+    "getMessageSamplingRate": 20
 }

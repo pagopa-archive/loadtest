@@ -1,7 +1,7 @@
 import http from 'k6/http';
 import { sleep } from 'k6';
 import { check } from 'k6';
-import { generateFakeFiscalCode, generateFakeMarkdown, generateFakeSubject } from './modules/helpers.js';
+import { generateFakeFiscalCode, generateFakeMarkdown, generateFakeSubject, generateFakeSessionToken } from './modules/helpers.js';
 
 export let options = {
     scenarios: {
@@ -32,16 +32,16 @@ export function setup() {
 
 export default function (data) {
     // Values from env var.
-    var urlBasePath = `${__ENV.BASE_URL}`
-    var apimKey = `${__ENV.APIM_KEY}`
-
-    var auth = generateAuth();
+    var urlBasePath = `${__ENV.BASE_URL}`;
+    var apimKey = `${__ENV.APIM_KEY}`;
+    var sessionToken = generateFakeSessionToken();
 
     var headersParams = {
-    headers: {
-        'Content-Type': 'application/json',
-        'Ocp-Apim-Subscription-Key': apimKey,
-    },
+        headers: {
+            'Content-Type': 'application/json',
+            'Ocp-Apim-Subscription-Key': apimKey,
+            'SESSION_TOKEN': sessionToken,
+        },
     };
 
     // Send new message
@@ -49,9 +49,7 @@ export default function (data) {
         pagoPaMethod: "SendMessage",
     };
     var url = `${urlBasePath}/api/v1/getCertificate`;
-    var payload = JSON.stringify({
-        "auth": auth
-    });
+
     var r = http.post(url, payload, headersParams, {
         tags: tag,
     });

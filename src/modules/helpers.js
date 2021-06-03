@@ -1,17 +1,24 @@
 const configData=JSON.parse(open("../config.json"));
 
 export function generateFakeFiscalCode() {
-  var fiscalCodes = configData.fiscalCodes;
+  fiscalCodes = configData.fiscalCodes;
   var fiscalCode = fiscalCodes[Math.floor(Math.random() * items.length)];
 
   return fiscalCode;
 }
 
-export function generateFakeFiscalCode() {
-  var authCodes = configData.authCodes;
+export function generateFakAuthCode() {
+  authCodes = configData.authCodes;
   var authCode = authCodes[Math.floor(Math.random() * items.length)];
 
   return authCode;
+}
+
+export function generateFakeSessionToken() {
+  sessionTokens = configData.sessionTokens;
+  var sessionToken = sessionTokens[Math.floor(Math.random() * items.length)];
+
+  return sessionToken;
 }
 
 export function generateFakeSubject() {

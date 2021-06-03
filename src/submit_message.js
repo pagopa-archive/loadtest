@@ -1,7 +1,7 @@
 import http from 'k6/http';
 import { sleep } from 'k6';
 import { check } from 'k6';
-import { generateFakeFiscalCode, generateFakeMarkdown, generateFakeSubject } from './modules/helpers.js';
+import { generateFakAuthCode, generateFakeFiscalCode, generateFakeMarkdown, generateFakeSubject } from './modules/helpers.js';
 
 export let options = {
     scenarios: {
@@ -39,6 +39,7 @@ export default function (data) {
     var apimKey = `${__ENV.APIM_KEY}`
 
     var fiscalCode = generateFakeFiscalCode();
+    var authCode = generateFakAuthCode();
     console.log('Fiscal code: ' + fiscalCode)
 
     var headersParams = {
@@ -59,7 +60,7 @@ export default function (data) {
             "markdown": data.markdown,
             "eu_covid_cert": 
             { 
-                "auth_code": "nk34nidwew9o4nro3noionwow" 
+                "auth_code": authCode 
             }
         },
         "fiscal_code": fiscalCode

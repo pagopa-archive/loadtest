@@ -33,13 +33,11 @@ export function setup() {
 export default function (data) {
     // Values from env var.
     var urlBasePath = `${__ENV.BASE_URL}`;
-    var apimKey = `${__ENV.APIM_KEY}`;
     var sessionToken = generateFakeSessionToken();
 
     var headersParams = {
         headers: {
             'Content-Type': 'application/json',
-            'Ocp-Apim-Subscription-Key': apimKey,
             'Authorization': `Bearer : ${sessionToken}`
         },
     };

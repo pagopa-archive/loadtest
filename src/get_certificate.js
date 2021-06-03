@@ -39,8 +39,7 @@ export default function (data) {
     var headersParams = {
         headers: {
             'Content-Type': 'application/json',
-            'Ocp-Apim-Subscription-Key': apimKey,
-            'SESSION_TOKEN': sessionToken,
+            'Authorization': `Bearer : ${sessionToken}`
         },
     };
 

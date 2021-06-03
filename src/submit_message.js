@@ -69,7 +69,7 @@ export default function (data) {
         tags: tag,
     });
     console.log("Send message with fiscal code " + fiscalCode + " Status " + r.status);
-    check(r, { 'status is 201': (r) => r.status === 201 }, tag);
+    check(r, { 'Send message Status is 201': (r) => r.status === 201 }, tag);
 
     var jsonBody = JSON.parse(r.body);
     var messageId = jsonBody.id;

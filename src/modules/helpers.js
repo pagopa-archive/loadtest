@@ -7,11 +7,18 @@ export function generateFakeFiscalCode() {
   return fiscalCode;
 }
 
-export function generateFakeFiscalCode() {
+export function generateFakAuthCode() {
   var authCodes = configData.authCodes;
   var authCode = authCodes[Math.floor(Math.random() * items.length)];
 
   return authCode;
+}
+
+export function generateFakeSessionToken() {
+  var sessionTokens = configData.sessionTokens;
+  var sessionToken = sessionTokens[Math.floor(Math.random() * items.length)];
+
+  return sessionToken;
 }
 
 export function generateFakeSubject() {

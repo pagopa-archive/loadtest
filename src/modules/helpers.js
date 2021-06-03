@@ -2,21 +2,21 @@ const configData=JSON.parse(open("../config.json"));
 
 export function generateFakeFiscalCode() {
   var fiscalCodes = configData.fiscalCodes;
-  var fiscalCode = fiscalCodes[Math.floor(Math.random() * items.length)];
+  var fiscalCode = fiscalCodes[Math.floor(Math.random() * fiscalCodes.length)];
 
   return fiscalCode;
 }
 
 export function generateFakAuthCode() {
   var authCodes = configData.authCodes;
-  var authCode = authCodes[Math.floor(Math.random() * items.length)];
+  var authCode = authCodes[Math.floor(Math.random() * authCodes.length)];
 
   return authCode;
 }
 
 export function generateFakeSessionToken() {
   var sessionTokens = configData.sessionTokens;
-  var sessionToken = sessionTokens[Math.floor(Math.random() * items.length)];
+  var sessionToken = sessionTokens[Math.floor(Math.random() * sessionTokens.length)];
 
   return sessionToken;
 }

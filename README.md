@@ -12,9 +12,19 @@ You need to set an environment variable `APIM_KEY` with the azure API Management
 You need to set an environment variable `BASE_URL` for the base url API.
 
 ```sh
-k6 run -e APIM_KEY=${APIM_KEY} -e BASE_URL=${BASE_URL} src/submit_message.js
+k6 run \
+    -e APIM_KEY=${APIM_KEY} \
+    -e BASE_URL=${BASE_URL} \
+    -e FISCAL_CODES=${FISCAL_CODES} \
+    -e MESSAGE_SAMPLING_RATE=${MESSAGE_SAMPLING_RATE} \
+    src/submit_message.js
 # or
-docker run -i --rm -v $(pwd)/src:/src -e APIM_KEY=${APIM_KEY} -e BASE_URL=${BASE_URL} loadimpact/k6 run /src/submit_message.js
+docker run -i --rm -v $(pwd)/src:/src \
+    -e APIM_KEY=${APIM_KEY} \
+    -e BASE_URL=${BASE_URL} \
+    -e FISCAL_CODES=${FISCAL_CODES} \
+    -e MESSAGE_SAMPLING_RATE=${MESSAGE_SAMPLING_RATE} \
+    loadimpact/k6 run /src/submit_message.js
 ```
 
 ## 02. Submits a message to a user.

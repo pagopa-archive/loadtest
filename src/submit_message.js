@@ -1,7 +1,7 @@
 import http from 'k6/http';
 import { sleep } from 'k6';
 import { check } from 'k6';
-import { generateFakAuthCode, generateFakeFiscalCode, generateFakeMarkdown, generateFakeSubject } from './modules/helpers.js';
+import { generateFakAuthCode, generateFakeFiscalCode, generateFakeMarkdown, generateFakeSubject, getMessageSamplingRate } from './modules/helpers.js';
 
 export let options = {
     scenarios: {
@@ -25,7 +25,6 @@ export let options = {
     },
 };
 
-const samplingRate=JSON.parse(open("./config.json")).getMessageSamplingRate;
 export function setup() {
     return {
         subject: generateFakeSubject(),
@@ -38,8 +37,10 @@ export default function (data) {
     var urlBasePath = `${__ENV.BASE_URL}`
     var apimKey = `${__ENV.APIM_KEY}`
 
-    var fiscalCode = generateFakeFiscalCode();
+    var fiscalCode = generateFakeFiscalCode(`${__ENV.FISCAL_CODES}`);
+    var messageSamplingRate = getMessageSamplingRate(`${__ENV.MESSAGE_SAMPLING_RATE}`);
     var authCode = generateFakAuthCode();
+
     console.log('Fiscal code: ' + fiscalCode)
 
     var headersParams = {
@@ -76,14 +77,14 @@ export default function (data) {
 
     // Sample Message Status
     var r = Math.floor(Math.random() * 100) + 1;
-    if (r <= samplingRate) {
+    if (r <= messageSamplingRate) {
         // Polling message status
         sleep(5);
         var maxRetries = 20;
         var retryCount = 0;
         var messageSubmitted = false;
         do {
-            sleep(retryCount++)
+            sleep(retryCount)
             console.log('Polling Message Status: ' + r.status + ' retry: ' + (retryCount + 1));
     
             // Get Message Status

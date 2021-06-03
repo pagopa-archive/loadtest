@@ -1,7 +1,6 @@
 import http from 'k6/http';
-import { sleep } from 'k6';
 import { check } from 'k6';
-import { generateFakeFiscalCode, generateFakeMarkdown, generateFakeSubject, generateFakeSessionToken } from './modules/helpers.js';
+import { generateFakeSessionToken } from './modules/helpers.js';
 
 export let options = {
     scenarios: {
@@ -20,8 +19,6 @@ export let options = {
     },
     thresholds: {
         http_req_duration: ['p(99)<1500'], // 99% of requests must complete below 1.5s
-        'http_req_duration{pagoPaMethod:SendMessage}': ['p(95)<1000'], // threshold on API requests only
-        'http_req_duration{pagoPaMethod:GetMessageStatus}': ['p(95)<1000'], // threshold on API requests only
     },
 };
 
@@ -33,7 +30,7 @@ export function setup() {
 export default function (data) {
     // Values from env var.
     var urlBasePath = `${__ENV.BASE_URL}`;
-    var sessionToken = generateFakeSessionToken();
+    var sessionToken = generateFakeSessionToken(`${__ENV.SESSION_TOKENS}`);
 
     var headersParams = {
         headers: {

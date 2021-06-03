@@ -82,7 +82,7 @@ export default function (data) {
         var retryCount = 0;
         var messageSubmitted = false;
         do {
-            sleep(1)
+            sleep(retryCount++)
             console.log('Polling Message Status: ' + r.status + ' retry: ' + (retryCount + 1));
     
             // Get Message Status
